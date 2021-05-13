@@ -14,9 +14,24 @@ app.route('/users')
     app.locals.users.push(app.locals.users.length || 0);
     res.status(200).json({ id: app.locals.users[app.locals.users.length - 1] });
   });
-app.get('/user/:id', (req, res) => {
-  res.status(200).json({ id: app.locals.users[Number(req.params.id)] });
-});
+app.route('/user/:id')
+  .get((req, res) => {
+    const index = app.locals.users.indexOf(Number(req.params.id));
+
+    if (index < 0)
+      return res.status(204).json({ message: "User not found" });
+
+    res.status(202).json({ id: app.locals.users[index] });
+  })
+  .delete((req, res) => {
+    const index = app.locals.users.indexOf(Number(req.params.id));
+
+    if (index < 0)
+      return res.status(204).json({ message: "User not found" });
+
+    const deleted = app.locals.users.splice(index, 1);
+    return res.status(202).json({ id: deleted });
+  });
 
 app.listen(3000, () => {
   console.log("Server runned");
