@@ -14,7 +14,7 @@ describe('User RESTful', () => {
 
       request = cy.request({
         method: 'POST',
-        url: '/user',
+        url: '/users',
         followRedirect: false,
         headers: {
           'accept': 'application/json'
@@ -44,7 +44,7 @@ describe('User RESTful', () => {
         }
       });
 
-      request.its('body').should('deep.eq', [ { id: 0 } ]);
+      request.its('body').should('deep.eq', [{ id: 0 }]);
 
     });
 
